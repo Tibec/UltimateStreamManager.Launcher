@@ -385,7 +385,7 @@ namespace UltimateStreamMgr.Launcher
                 }
             }
         }
-
+         
         private void InstallNugetPackage(string packageName, string packageVersion, string outputDirectory)
         {
             // Well i let that in clear, because it's a random account i created specially for this with only repo and package:read rights
