@@ -155,7 +155,7 @@ namespace UltimateStreamMgr.Launcher
                      { ""query"": 
                        ""query
                         {
-                          repository(name:\""UltimateStreamManager\"",owner:\""Tibec\"" ) {
+                          repository(name:\""UltimateStreamManager.Launcher\"",owner:\""Tibec\"" ) {
 		                    packages(names:\""UltimateStreamManager.Launcher\"", first:1) {
                               nodes {
                                 versions(first:1) {
@@ -193,7 +193,7 @@ namespace UltimateStreamMgr.Launcher
 
                     _launcherNewVersion = latestLauncherVersion;
 
-                    return new[] {_lastVersion, _currentVersion}.OrderBy(v => v).Last() != _currentVersion;
+                    return new[] { latestLauncherVersion, currentLauncherVersion }.OrderBy(v => v).Last() != currentLauncherVersion;
                 }
             }
             catch (Exception)
@@ -272,7 +272,6 @@ namespace UltimateStreamMgr.Launcher
         {
             try
             {
-
                 using (var client = new HttpClient(new HttpClientHandler
                     {AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate}))
                 {
@@ -359,20 +358,31 @@ namespace UltimateStreamMgr.Launcher
                 Directory.CreateDirectory(outputDirectory);
 
                 InstallNugetPackage("UltimateStreamManager.Launcher", _launcherNewVersion, outputDirectory);
-
-                Process process = new Process
+                try
                 {
-                    StartInfo =
-                    {
-                        WorkingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
-                        FileName = Path.Combine(outputDirectory,"UltimateStreamMgr.Launcher.exe"),
-                        UseShellExecute = false,
-                        Arguments = "update 2"
-                    }
-                };
+                    string updateFolder = Directory.GetDirectories(outputDirectory).First();
 
-                process.Start();
-                _launcherRequireStop = true;
+                    Process process = new Process
+                    {
+                        StartInfo =
+                        {
+                            WorkingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                            FileName = Path.Combine(updateFolder, "UltimateStreamMgr.Launcher.exe"),
+                            UseShellExecute = false,
+                            Arguments = "update 1"
+                        }
+                    };
+
+                    process.Start();
+                    _launcherRequireStop = true;
+                }
+                catch (Exception)
+                {
+                    using (new Notification("UltimateStreamManager", "Error while trying to install the launcher update. We'll run with the current one.",
+                        NotificationType.Warning))
+                    {
+                    }
+                }
             }
         }
 
