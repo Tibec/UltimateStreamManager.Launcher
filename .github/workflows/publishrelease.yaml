@@ -26,7 +26,7 @@ jobs:
       run: |
         $version = (git describe --tags (git rev-list --tags --max-count=1))
         $stampVersion = (git describe --tags)
-        msbuild ./UltimateStreamManager.Launcher.sln -t:build -property:Configuration=Release -p:Platform=x86 -p:AllowedReferenceRelatedFileExtensions=none -p:Version=$version -p:VersionStamp="$stampVersion"
+        msbuild ./UltimateStreamManager.Launcher.sln -t:build -property:Configuration=Release -p:AllowedReferenceRelatedFileExtensions=none -p:Version=$version -p:VersionStamp="$stampVersion"
     
     - name: Publish artifacts
       uses: actions/upload-artifact@v1
