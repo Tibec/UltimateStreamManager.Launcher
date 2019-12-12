@@ -400,7 +400,7 @@ namespace UltimateStreamMgr.Launcher
             NugetUtils.RunCommand(installRepoCommand);
 
             string installPackageCommand =
-                $"install {packageName} -Version {packageVersion} -OutputDirectory {outputDirectory} -NonInteractive -source GPR_USM ";
+                $"install {packageName} -Version {packageVersion} -OutputDirectory {outputDirectory} -NoCache -NonInteractive -source GPR_USM ";
 
             NugetUtils.RunCommand(installPackageCommand);
         }
