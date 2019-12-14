@@ -223,7 +223,7 @@ namespace UltimateStreamMgr.Launcher
             {
                 StartInfo =
                 {
-                    WorkingDirectory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),
+                    WorkingDirectory = Directory.GetCurrentDirectory(),
                     FileName = "UltimateStreamMgr.Launcher.exe",
                     UseShellExecute = false
                 }
