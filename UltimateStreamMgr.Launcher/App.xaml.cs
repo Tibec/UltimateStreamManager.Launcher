@@ -68,6 +68,10 @@ namespace UltimateStreamMgr.Launcher
             bool lookForUpdate = _targetVersion != _currentVersion;
             bool updateAvailable = UpdateAvailable();
             
+            if(!updateAvailable)
+            {
+                _lastVersion = _currentVersion;
+            }
 
             if (!installed && !updateAvailable) // User have not a version and doesn't have internet
             {
@@ -126,14 +130,14 @@ namespace UltimateStreamMgr.Launcher
 
         private void HandleLauncherUpdate(StartupEventArgs e)
         {
-            if (LauncherUpdateAvailable())
-            {
-                PerformUpdate(LauncherUpdateSteps.Downloading);
-            }
-            else if (e.Args.Length == 2 && e.Args[0] == "update")
+            if (e.Args.Length == 2 && e.Args[0] == "update")
             {
                 LauncherUpdateSteps current = (LauncherUpdateSteps) Enum.Parse(typeof(LauncherUpdateSteps), e.Args[1]);
                 PerformUpdate(current);
+            }
+            else if (LauncherUpdateAvailable())
+            {
+                PerformUpdate(LauncherUpdateSteps.Downloading);
             }
         }
 
@@ -218,13 +222,14 @@ namespace UltimateStreamMgr.Launcher
 
         private void ApplyUpdate()
         {
-            File.Copy(Assembly.GetExecutingAssembly().Location, "UltimateStreamMgr.Launcher.exe", true);
+            string copyOutput = Path.Combine(Directory.GetCurrentDirectory(), "UltimateStreamMgr.Launcher.exe");
+            File.Copy(Assembly.GetExecutingAssembly().Location, copyOutput, true);
             Process process = new Process
             {
                 StartInfo =
                 {
                     WorkingDirectory = Directory.GetCurrentDirectory(),
-                    FileName = "UltimateStreamMgr.Launcher.exe",
+                    FileName = copyOutput,
                     UseShellExecute = false
                 }
             };
