@@ -3,9 +3,10 @@
     <id>UltimateStreamManager.Launcher</id>
     <title>UltimateStreamManager</title>
     <authors>Benjamin ROELANDT</authors>
-	<version>1.0.0</version>
+	  <version>1.0.0</version>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Tools to update UltimateStreamManager through nuget</description>
+    <repository type="git" url="https://github.com/Tibec/UltimateStreamManager.Launcher"/>
   </metadata>
   <files>
     <file src="bin\Release\*.dll" target="" />
